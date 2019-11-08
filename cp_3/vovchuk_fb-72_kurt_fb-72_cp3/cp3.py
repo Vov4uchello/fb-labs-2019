@@ -1,14 +1,19 @@
 import collections
 
 
-def bezout(a, b):
+def euclid(a, b):
     c = b
-    x, xx, y, yy = 1, 0, 0, 1
-    while b:
+    x = 1
+    xx = 0
+    per = int
+    while b != 0:
         q = a // b
-        a, b = b, a % b
-        x, xx = xx, x - xx*q
-        y, yy = yy, y - yy*q
+        per = a
+        a = b
+        b = per % b
+        per = x
+        x = xx
+        xx = per - xx * q
     if x < 0:
         x = c + x
     if a == 1:
@@ -21,20 +26,20 @@ def bezout(a, b):
 def lin_equation(x1, x2, y1, y2, a_b, open1, close1, open2, close2):
     y = y1 - y2
     x = x1 - x2
-    xx = bezout(x, 961)
+    xx = euclid(x, 961)
     u = int
     if xx <= 0:
         xx *= -1
         print('xx = ' + str(xx))
         if y % xx == 0:
             y /= xx
-            reversx = bezout(x/xx, 961/xx)
+            reversx = euclid(x/xx, 961/xx)
             x0 = (y*reversx) % (961/xx)
             i = 0
             while i != xx:
                 a_b[0] = int(x0 + 961/xx*i)
                 print('a = ' + str(a_b[0]))
-                a_b[2] = int(bezout(a_b[0], 961))
+                a_b[2] = int(euclid(a_b[0], 961))
                 print('a^(-1) = ' + str(a_b[2]))
                 a_b[1] = int((y1 - a_b[0] * x1) % 961)
                 print('b = ' + str(a_b[1]))
@@ -47,7 +52,7 @@ def lin_equation(x1, x2, y1, y2, a_b, open1, close1, open2, close2):
             return 0
     a_b[0] = (xx*y) % 961
     print('a = ' + str(a_b[0]))
-    a_b[2] = bezout(a_b[0], 961)
+    a_b[2] = euclid(a_b[0], 961)
     if a_b[2] < 0:
         return 0
     print('a^(-1) = ' + str(a_b[2]))
@@ -173,7 +178,6 @@ ii = 0
 while ii != 961:
     arr.write(str(ii) + bigramms[ii] + ' ')
     ii += 1
-
 full(most, most_common_bigramms)
 
 file.close()
